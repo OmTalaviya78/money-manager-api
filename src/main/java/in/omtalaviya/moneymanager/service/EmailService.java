@@ -27,8 +27,10 @@ public class EmailService {
             mailSender.send(message);
             System.out.println("✅ Email sent to: " + to);
         } catch (Exception e) {
-            e.printStackTrace(); // better for debugging
+            e.printStackTrace();
+            System.out.println("❌ SMTP Error: " + e.getMessage());
             throw new RuntimeException("Email sending failed: " + e.getMessage());
         }
+
     }
 }
