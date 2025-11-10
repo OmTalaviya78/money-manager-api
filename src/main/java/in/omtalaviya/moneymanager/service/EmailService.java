@@ -9,20 +9,26 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
+
     private final JavaMailSender mailSender;
 
+    // Load from application.properties (optional)
+//    @Value("${spring.mail.username}")
+//    private String fromEmail;
 
-    public void sendEmail(String to,String subject,String body) {
+    public void sendEmail(String to, String subject, String body) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("omtalaviya05@gmail.com");
+            message.setFrom("omtalaviya05@gmail.com"); // safer: uses your verified gmail sender
             message.setTo(to);
             message.setSubject(subject);
             message.setText(body);
+
             mailSender.send(message);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            System.out.println("✅ Email sent to: " + to);
+        } catch (Exception e) {
+            e.printStackTrace(); // better for debugging
+            throw new RuntimeException("Email sending failed: " + e.getMessage());
         }
     }
 }
